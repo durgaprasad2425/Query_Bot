@@ -254,6 +254,9 @@ python chat_sever.py or uvicorn chat_server:app --port 8080 --reload
 Open `http://localhost:8080/docs` in your browser.
 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/53fb4c4c-d995-490f-9cfe-0bea8bba6d03" />
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/2d23ee34-eb8a-4f4c-8440-6e5e1a084824" />
+
+
 
 
 
