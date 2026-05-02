@@ -254,11 +254,18 @@ source venv/bin/activate  # Or venv\Scripts\activate on Windows
 pip install -r requirements.txt
 ```
 
-### 3. Start the Server
+### 3. Start the Server through UI
 ```bash
-python main.py
+python main.py or uvicorn main:app --port 8080 --reload
 ```
 Open `http://localhost:8080` in your browser.
+
+### 3. Start the Server through FastAPI
+```bash
+python chat_sever.py or uvicorn chat_server:app --reload
+```
+Open `http://localhost:8000` in your browser.
+
 
 ---
 
