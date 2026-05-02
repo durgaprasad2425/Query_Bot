@@ -41,141 +41,130 @@ Query Bot is a high-performance, real-time AI assistant built with **FastAPI**, 
 - **Embeddings**: OpenAI `text-embedding-3-small`
 
 ### Why I am using
-1. Backend Framework — FastAPI
+## 🚀 1. Backend Framework — FastAPI
+**Role:** Core API layer and async runtime  
 
-Role: Core API layer and async runtime
+**Why this choice:**
+- Handles LLM streaming responses  
+- Supports concurrent embedding and API calls  
+- Non-blocking, high-performance architecture  
 
-Why this choice:
-FastAPI provides an asynchronous execution model, which is essential for handling:
+**Built-in advantages:**
+- Automatic request validation (Pydantic)  
+- Strong type safety  
+- Predictable API behavior  
 
-LLM streaming responses
-concurrent embedding generation
-external API calls (search, scraping)
+---
 
-Its tight integration with Pydantic ensures:
+## 🔄 2. Communication Layer — WebSocket
+**Role:** Real-time bidirectional communication  
 
-automatic request validation
-type safety
-predictable API behavior
+**Why this design:**
+- Token-level streaming responses  
+- Real-time document upload progress  
+- Persistent connection (no reconnects)  
+- Session continuity using `session_id`  
 
-2. Communication Layer — WebSocket (Single Persistent Channel)
+👉 One connection handles chat, upload, and session management  
 
-Role: Real-time interaction between client and server
+---
 
-Why this design:
-Instead of traditional HTTP request-response, the system uses a persistent WebSocket connection to support:
+## 🤖 3. LLM — OpenAI GPT-4o
+**Role:** Core reasoning and response engine  
 
-token-level streaming from the LLM
-real-time document upload progress
-bidirectional communication
-session continuity without reconnects
+**Why this choice:**
+- Strong tool/function-calling capability  
+- Reliable instruction following  
+- Handles multi-step reasoning (RAG + tools)  
 
-Session context is maintained via session_id passed inside messages, enabling seamless switching without reopening connections.
+**Dynamic behavior:**
+- Answers directly  
+- Retrieves document context  
+- Calls tools (web search, calculator)  
 
-3. LLM — OpenAI GPT-4o
+👉 Eliminates rigid rule-based routing  
 
-Role: Core reasoning and response generation engine
+---
 
-Why this choice:
+## 🧩 4. Agent Orchestration — LangGraph
+**Role:** Controls reasoning flow and tool execution  
 
-Strong function/tool-calling capability
-Reliable instruction following
-Handles multi-step reasoning (RAG + tools)
+**Execution Flow:**
+User → Retrieval → LLM → Tool → LLM → Response
 
-The model dynamically decides whether to:
+**Why this choice:**
+- Transparent execution (debuggable)  
+- Modular node-based design  
+- Easy to extend (validator, routing, memory)  
 
-answer directly
-retrieve document context
-call external tools (e.g., web search)
+---
 
-This removes the need for rigid rule-based routing.
+## 🗄️ 5. Vector Store — ChromaDB
+**Role:** Stores and retrieves embeddings  
 
-4. Agent Orchestration — LangGraph
+**Why this choice:**
+- Embedded database (no external setup)  
+- Persistent storage  
+- Fast similarity search  
 
-Role: Controls reasoning flow and tool execution
+👉 Can be replaced with Pinecone or Weaviate  
 
-Why this choice:
-LangGraph models the system as an explicit state machine:
+---
 
-User Input → Retrieval → LLM → Tool → LLM → Response
+## 🔢 6. Embeddings — text-embedding-3-small
+**Role:** Converts text into semantic vectors  
 
-Advantages:
+**Why this choice:**
+- Strong semantic understanding  
+- Cost-efficient  
+- Optimized for RAG pipelines  
 
-transparent execution flow
-easier debugging
-modular node-based design
-simple extension (add validator, router, memory nodes)
-5. Vector Store — ChromaDB
+---
 
-Role: Stores and retrieves document embeddings
+## 🔍 7. Hybrid Retrieval — BM25 + Vector Search
+**Role:** Improves retrieval accuracy  
 
-Why this choice:
+**Approach:**
+- Dense retrieval → semantic meaning  
+- Sparse retrieval (BM25) → exact matches  
 
-Embedded database (no external infrastructure)
-persistent local storage
-efficient similarity search
+**Benefits:**
+- Better recall for IDs, keywords, and codes  
+- Higher overall relevance  
 
-The abstraction layer allows seamless migration to managed solutions like Pinecone or Weaviate if needed.
+---
 
-6. Embeddings — OpenAI text-embedding-3-small
+## 🌐 8. Web Search — Serper API
+**Role:** Provides real-time external knowledge  
 
-Role: Converts text into semantic vectors
+**Why this choice:**
+- Google-quality search results  
+- Includes answer boxes and knowledge graphs  
+- Supports full content retrieval  
 
-Why this choice:
+**Used when:**
+- Information is time-sensitive  
+- Internal knowledge is insufficient  
 
-strong semantic understanding
-cost-efficient for large-scale usage
-suitable for document chunk retrieval
+---
 
-Used for dense retrieval to capture contextual similarity beyond exact keyword matches.
+## 📄 9. Document Processing — PDF Pipeline
 
-7. Hybrid Retrieval — BM25 + Vector Search
+**Components:**
+- pypdf  
+- pdf2image  
+- pytesseract  
 
-Role: Improves retrieval accuracy
+**Processing Strategy:**
+1. Native text extraction (fast)  
+2. OCR fallback (for scanned PDFs)  
 
-Why this design:
+**Outcome:**
+- Supports both digital and scanned documents  
 
-The system combines:
+---
 
-Dense retrieval (embeddings): captures semantic meaning
-Sparse retrieval (BM25): captures exact matches
-
-This hybrid approach ensures:
-
-better recall for technical terms, IDs, and keywords
-improved overall relevance
-8. Web Search — Serper API
-
-Role: Provides real-time external knowledge
-
-Why this choice:
-
-returns structured Google results
-supports answer boxes and knowledge panels
-enables retrieval of full page content
-
-Used only when:
-
-information is time-sensitive
-confidence in internal knowledge is low
-9. Document Processing — PDF Pipeline
-
-Components:
-
-pypdf
-pdf2image
-pytesseract
-
-Why this design:
-
-Two-stage extraction strategy:
-
-Native text extraction (fast, accurate for digital PDFs)
-OCR fallback (for scanned/image-based documents)
-
-This ensures robust handling across different document types.
-
-🧠 System-Level Design Summary
+# ⚙️ System Design Overview
 
 The system follows a hybrid agentic RAG architecture:
 
