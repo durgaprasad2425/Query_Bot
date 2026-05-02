@@ -249,11 +249,12 @@ Open `http://localhost:8080` in your browser.
 
 ### 4. Start the Server through FastAPI
 ```bash
-python chat_sever.py or uvicorn chat_server:app --reload
+python chat_sever.py or uvicorn chat_server:app --port 8080 --reload
 ```
-Open `http://localhost:8000` in your browser.
+Open `http://localhost:8080/docs` in your browser.
 
 <img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/53fb4c4c-d995-490f-9cfe-0bea8bba6d03" />
+
 
 
 
