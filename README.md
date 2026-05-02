@@ -199,19 +199,6 @@ Query_Bot/
 
 ---
 
-## ⚙️ Configuration (.env)
-
-| Variable | Description | Default |
-| :--- | :--- | :--- |
-| `OPENAI_API_KEY` | Your OpenAI API Key (**Required**) | - |
-| `OPENAI_MODEL` | The LLM model to use | `gpt-4o` |
-| `SERPER_API_KEY` | Key for web search tool (Optional) | `""` |
-| `CHUNK_SIZE` | Size of document chunks | `700` |
-| `CHUNK_OVERLAP` | Overlap between chunks | `100` |
-| `RETRIEVAL_TOP_K` | Number of chunks to retrieve | `5` |
-
----
-
 ## 🔌 WebSocket Protocol
 
 Query Bot communicates via a single WebSocket endpoint at `/ws/main`.
@@ -260,11 +247,14 @@ python main.py or uvicorn main:app --port 8080 --reload
 ```
 Open `http://localhost:8080` in your browser.
 
-### 3. Start the Server through FastAPI
+### 4. Start the Server through FastAPI
 ```bash
 python chat_sever.py or uvicorn chat_server:app --reload
 ```
 Open `http://localhost:8000` in your browser.
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/53fb4c4c-d995-490f-9cfe-0bea8bba6d03" />
+
 
 
 ---
